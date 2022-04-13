@@ -5,6 +5,23 @@ import UserProfile from "./Component/UserProfile";
 function App() {
   const [currencyData, setCurrencyData] = useState([]);
   const [Loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState({
+    id: "4858594",
+    currencies: [{ currency: "INR", Amount: 1000000 }],
+    WatchList: ["AMD", "EGP", "IDR", "JPY"],
+  });
+
+  useEffect(() => {
+    setUserData(JSON.parse(localStorage.getItem("userAccount")));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("userAccount", JSON.stringify(userData));
+  }, [userData]);
+
+  useEffect(() => {
+    console.log(userData);
+  });
 
   const options = {
     method: "GET",

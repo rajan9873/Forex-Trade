@@ -27,6 +27,9 @@ p {
 
 .flex {
   display: flex;
+}
+
+.align-center {
   align-items: center;
 }
 
@@ -64,4 +67,18 @@ Header {
   display: flex;
   gap: 2rem;
   list-style: none;
+}
+
+/* user profile */
+
+.user-profile-main {
+  margin-top: 35px;
+}
+
+/* section a */
+
+.graph {
+  background-color: rgb(214, 209, 209);
+  width: 450px;
+  height: 400px;
 }
