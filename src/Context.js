@@ -15,10 +15,6 @@ const AppProvider = ({ children }) => {
     localStorage.setItem("userAccount", JSON.stringify(userData));
   }, [userData]);
 
-  useEffect(() => {
-    console.log(userData);
-  });
-
   const options = {
     method: "GET",
     headers: {
@@ -86,7 +82,14 @@ const AppProvider = ({ children }) => {
   }, []);
 
   return (
-    <AppContext.Provider value={{ currencyData, Loading }}>
+    <AppContext.Provider
+      value={{
+        currencyData,
+        Loading,
+        userData,
+        setUserData,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

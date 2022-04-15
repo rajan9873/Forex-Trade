@@ -1,9 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { useGlobalContext } from "../Context";
 import BuySection from "./BuySection";
 import SellSection from "./SellSection";
 
 const Trading = () => {
+  const { id } = useParams();
+  const { currencyData, Loading, userData, setUserData } = useGlobalContext();
+
   const [buySection, setBuySection] = useState(false);
+
+  useEffect(() => {
+    if (!Loading) {
+      const currentCurrency = currencyData.filter((obj) => {
+        return obj.currencyCode === id;
+      });
+      console.log(currentCurrency);
+      console.log(userData);
+    }
+  }, [Loading]);
 
   return (
     <>
