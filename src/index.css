@@ -41,12 +41,40 @@ p {
   justify-content: space-around;
 }
 
+.justify-center {
+  justify-content: center;
+}
+
 .flex-row {
   flex-direction: row;
 }
 
 .flex-column {
   flex-direction: column;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mt-10 {
+  margin-top: 0.7rem;
+}
+
+.margin-auto {
+  margin: 0 auto;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.bg-red {
+  background-color: crimson;
 }
 
 /* header */
@@ -81,4 +109,63 @@ Header {
   background-color: rgb(214, 209, 209);
   width: 450px;
   height: 400px;
+}
+
+/* Trading  */
+
+/* buy section */
+
+.trading-main {
+  margin-top: 40px;
+}
+
+.trading-card {
+  width: 270px;
+  border: 2px solid grey;
+}
+
+.trading-card-header {
+  border-bottom: 2px solid grey;
+}
+
+.buy {
+  border-right: 2px solid grey;
+  width: 100%;
+  text-align: center;
+  padding-block: 3px;
+}
+
+.sell {
+  width: 100%;
+  text-align: center;
+  padding-block: 3px;
+}
+
+.currency-detail-container {
+  margin-top: 0.7rem;
+}
+
+.amount-container {
+  margin-top: 0.7rem;
+}
+
+.aquired-amount {
+  font-size: 0.84rem;
+  text-align: end;
+  margin-right: 5px;
+}
+
+.amount-input-value {
+  width: 3rem;
+  height: 1.4rem;
+}
+
+.funds-container {
+  margin-bottom: 10px;
+}
+
+/* sell section */
+
+.sell-btn-container {
+  margin-bottom: 10px;
 }

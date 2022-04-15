@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useGlobalContext } from "../Context";
 
-const UserProfile = ({ currencyData, Loading }) => {
+const UserProfile = () => {
+  const { currencyData, Loading } = useGlobalContext();
+
   const [popularCurrency, setPopularCurrency] = useState([]);
   const [currentCurrency, setCurrentCurrency] = useState();
   const [userLoading, setUserLoading] = useState(true);
