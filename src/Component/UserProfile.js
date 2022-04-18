@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useGlobalContext } from "../Context";
 
 const UserProfile = () => {
-  const { currencyData, Loading, userData, setUserData } = useGlobalContext();
+  const { currencyData, Loading } = useGlobalContext();
 
   const [popularCurrency, setPopularCurrency] = useState([]);
   const [currentCurrency, setCurrentCurrency] = useState();

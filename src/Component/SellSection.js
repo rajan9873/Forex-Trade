@@ -1,11 +1,11 @@
 import React from "react";
 
-const SellSection = () => {
+const SellSection = ({ aquiredAmount, aquiredCurrencies }) => {
   return (
     <>
       <div className="sellSection-aquired-amount-container flex justify-around mt-10">
         <div className="sellSection-aquired-amount-label">Aquired Amount</div>
-        <div className="sellSection-aquired-amount-value">157</div>
+        <div className="sellSection-aquired-amount-value">{aquiredAmount}</div>
       </div>
       <div className="amount-container flex justify-around mt-10">
         <label className="amount-label" htmlFor="amount-input">
@@ -30,9 +30,18 @@ const SellSection = () => {
           name="recieving-currency-dropdown"
           id="recieving-currency-dropdown"
         >
-          <option value="INR">INR</option>
-          <option value="USD">USD</option>
-          <option value="AMD">AMD</option>
+          {aquiredCurrencies.length > 0 ? (
+            aquiredCurrencies.map((item, index) => {
+              const currencyCode = item.currencyCode;
+              return (
+                <option key={index} value={currencyCode}>
+                  {currencyCode}
+                </option>
+              );
+            })
+          ) : (
+            <option value="none">none</option>
+          )}
         </select>
       </div>
       <div className="sales-container flex justify-around mt-10">

@@ -9,23 +9,53 @@ const Trading = () => {
   const { currencyData, Loading, userData, setUserData } = useGlobalContext();
 
   const [buySection, setBuySection] = useState(false);
+  const [currentCurrency, setCurrentCurrency] = useState();
+  const [tradingLoading, setTradingLoading] = useState(true);
+  const [aquiredAmount, setAquiredAmount] = useState(0);
+  const [aquiredCurrencies, setAquiredCurrencies] = useState([]);
+  useEffect(() => {
+    if (currentCurrency) {
+      const aquiredAmountData = userData.AquiredCurrency.filter((obj) => {
+        return obj.currencyCode === currentCurrency.currencyCode;
+      });
+
+      if (aquiredAmount.length > 0) {
+        const amount = aquiredAmountData[0].amount;
+        setAquiredAmount(amount);
+      } else {
+        setAquiredAmount(0);
+      }
+
+      const aquiredCurrenciesData = userData.AquiredCurrency.filter((obj) => {
+        return obj.currencyCode !== currentCurrency.currencyCode;
+      });
+
+      if (aquiredCurrenciesData.length > 0)
+        setAquiredCurrencies(aquiredCurrenciesData);
+      else setAquiredAmount([]);
+    }
+  }, [userData, currentCurrency]);
 
   useEffect(() => {
     if (!Loading) {
-      const currentCurrency = currencyData.filter((obj) => {
+      const currentCurrencyData = currencyData.filter((obj) => {
         return obj.currencyCode === id;
       });
-      console.log(currentCurrency);
-      console.log(userData);
+      setCurrentCurrency(currentCurrencyData[0]);
+      setTradingLoading(false);
     }
   }, [Loading]);
+
+  if (tradingLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
       <div className="trading-main flex justify-around">
         <div className="trading-section-a">
           <div className="currency-details">
-            <h1>₹11.96</h1>
+            <h1>₹{currentCurrency.rate.toFixed(2)}</h1>
           </div>
           <div className="graph"></div>
         </div>
@@ -57,7 +87,19 @@ const Trading = () => {
                 Sell
               </div>
             </div>
-            {buySection ? <BuySection /> : <SellSection />}
+            {buySection ? (
+              <BuySection
+                currentCurrency={currentCurrency}
+                aquiredAmount={aquiredAmount}
+                aquiredCurrencies={aquiredCurrencies}
+              />
+            ) : (
+              <SellSection
+                currentCurrency={currentCurrency}
+                aquiredAmount={aquiredAmount}
+                aquiredCurrencies={aquiredCurrencies}
+              />
+            )}
           </div>
         </div>
       </div>

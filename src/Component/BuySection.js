@@ -1,15 +1,16 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useGlobalContext } from "../Context";
 
-const BuySection = () => {
+const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
   return (
     <>
       <div className="currency-detail-container flex">
         <div className="trading-card-currency-title w-full text-center">
-          Buy USD
+          Buy <span>{currentCurrency.currencyCode}</span>
         </div>
         <div className="aquired-amount w-full">
           <p className="aquired-amount-label">Aquired Amount:</p>
-          <p className="aquired-amount-value">154</p>
+          <p className="aquired-amount-value">{aquiredAmount}</p>
         </div>
       </div>
       <div className="amount-container flex justify-around">
@@ -35,9 +36,18 @@ const BuySection = () => {
           name="payment-currency-dropdown"
           id="payment-currency-dropdown"
         >
-          <option value="INR">INR</option>
-          <option value="USD">USD</option>
-          <option value="AMD">AMD</option>
+          {aquiredCurrencies.length > 0 ? (
+            aquiredCurrencies.map((item, index) => {
+              const currencyCode = item.currencyCode;
+              return (
+                <option key={index} value={currencyCode}>
+                  {currencyCode}
+                </option>
+              );
+            })
+          ) : (
+            <option value="none">none</option>
+          )}
         </select>
       </div>
       <div className="market-price-container flex justify-around mt-10">
