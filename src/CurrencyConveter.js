@@ -1,6 +1,6 @@
 import React from "react";
 
-const CurrencyConvert = (amount = 1, firstCurrency, secondCurrency) => {
+const CurrencyConvert = (amount, firstCurrency, secondCurrency) => {
   const result = (amount * firstCurrency) / secondCurrency;
   return result;
 };

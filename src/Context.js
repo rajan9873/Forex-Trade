@@ -9,12 +9,12 @@ const AppProvider = ({ children }) => {
     AquiredCurrency: [
       {
         currencyCode: "INR",
-        currencyName: "Indian Ruppees",
         rate: 1,
         amount: 100000,
       },
       {
         currencyCode: "EGP",
+        rate: 4.1,
         amount: 20,
       },
     ],

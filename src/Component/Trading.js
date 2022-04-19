@@ -8,7 +8,7 @@ const Trading = () => {
   const { id } = useParams();
   const { currencyData, Loading, userData, setUserData } = useGlobalContext();
 
-  const [buySection, setBuySection] = useState(false);
+  const [buySection, setBuySection] = useState(true);
   const [currentCurrency, setCurrentCurrency] = useState();
   const [tradingLoading, setTradingLoading] = useState(true);
   const [aquiredAmount, setAquiredAmount] = useState(0);
