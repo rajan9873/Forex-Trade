@@ -3,11 +3,11 @@ import { useGlobalContext } from "../Context";
 import CurrencyConvert from "../CurrencyConveter";
 
 const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
-  const { userData } = useGlobalContext();
+  const { userData, setUserData } = useGlobalContext();
 
   const [secondaryCurrency, setSecondaryCurrency] = useState("INR");
-  const [secondaryCurrencyAmount, setSecondaryCurrencyAmount] = useState();
-  const [secondaryCurrencyRate, setSecondaryCurrencyRate] = useState();
+  const [secondaryCurrencyAmount, setSecondaryCurrencyAmount] = useState(0);
+  const [secondaryCurrencyRate, setSecondaryCurrencyRate] = useState(0);
   const [marketPrice, setMarketPrice] = useState(currentCurrency.rate);
   const [estimatedPrice, setEstimatedPrice] = useState(0);
   const [amount, setAmount] = useState(0);
@@ -29,7 +29,7 @@ const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
 
     const result = CurrencyConvert(1, currentCurrency.rate, secondaryRate);
     setMarketPrice(result);
-  }, [secondaryCurrency]);
+  }, [secondaryCurrency, userData]);
 
   useEffect(() => {
     const estimatingPrice = () => {
@@ -41,9 +41,70 @@ const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
       if (amount > 0 && Number) setEstimatedPrice(result);
       else setEstimatedPrice(0);
     };
-
     estimatingPrice();
   }, [amount, secondaryCurrencyRate]);
+
+  const purchase = () => {
+    if (secondaryCurrencyAmount > estimatedPrice && amount > 0) {
+      // checking if aquired currency have our current currency in array or not
+
+      const checkCurrentCurrency = userData.AquiredCurrency.filter((obj) => {
+        return obj.currencyCode === currentCurrency.currencyCode;
+      });
+
+      // if we have current currency in aquired currency array already
+
+      if (checkCurrentCurrency.length > 0) {
+        // adding amount in current currency
+
+        const addingAmountInArray = userData.AquiredCurrency.map((obj) => {
+          return obj.currencyCode === currentCurrency.currencyCode
+            ? { ...obj, amount: obj.amount + amount }
+            : { ...obj };
+        });
+
+        // subrating purchased amount from currency that we have purchased from
+
+        const subtractingAmountFromArray = addingAmountInArray.map((obj) => {
+          return obj.currencyCode === secondaryCurrency
+            ? { ...obj, amount: obj.amount - estimatedPrice }
+            : { ...obj };
+        });
+
+        setUserData((prevState) => ({
+          ...prevState,
+          AquiredCurrency: subtractingAmountFromArray,
+        }));
+      }
+
+      // if we do not have current currency in aquired currency we will add it in array on purchasing
+
+      if (checkCurrentCurrency.length == 0) {
+        const subtractingAmountFromArray = userData.AquiredCurrency.map(
+          (obj) => {
+            return obj.currencyCode === secondaryCurrency
+              ? { ...obj, amount: obj.amount - estimatedPrice }
+              : { ...obj };
+          }
+        );
+
+        setUserData((prevState) => ({
+          ...prevState,
+          AquiredCurrency: subtractingAmountFromArray,
+        }));
+
+        setUserData((prevState) => ({
+          ...prevState,
+          AquiredCurrency: [
+            ...prevState.AquiredCurrency,
+            { ...currentCurrency, amount },
+          ],
+        }));
+      }
+    } else {
+      console.log("not have enough funds");
+    }
+  };
 
   return (
     <>
@@ -53,7 +114,7 @@ const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
         </div>
         <div className="aquired-amount w-full">
           <p className="aquired-amount-label">Aquired Amount:</p>
-          <p className="aquired-amount-value">{aquiredAmount}</p>
+          <p className="aquired-amount-value">{aquiredAmount.toFixed(2)}</p>
         </div>
       </div>
       <div className="amount-container flex justify-around">
@@ -62,7 +123,7 @@ const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
         </label>
         <input
           onChange={(e) => {
-            setAmount(e.target.value);
+            setAmount(Number(e.target.value));
           }}
           type="number"
           name="amount-input"
@@ -105,16 +166,19 @@ const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
       </div>
       <div className="estimated-price-container flex justify-around mt-10">
         <p className="estimates-price-label">Estimated Price</p>
-        <p className="estimated-price-value">{estimatedPrice.toFixed(2)}</p>
+        <p className="estimated-price-value">{estimatedPrice.toFixed(0)}</p>
       </div>
       <div className="purchase-button-container flex justify-center">
-        <button className="purchase-button mt-10 cursor-pointer">
+        <button
+          onClick={purchase}
+          className="purchase-button mt-10 cursor-pointer"
+        >
           Purchase
         </button>
       </div>
       <div className="funds-container flex justify-center mt-10">
         <p className="funds">
-          funds : <span>{secondaryCurrencyAmount}</span>
+          funds : <span>{secondaryCurrencyAmount.toFixed(2)}</span>
         </p>
       </div>
     </>

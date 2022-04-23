@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 import { useGlobalContext } from "../Context";
 
 const UserProfile = () => {
-  const { currencyData, Loading } = useGlobalContext();
+  const { currencyData, Loading, userData } = useGlobalContext();
 
   const [popularCurrency, setPopularCurrency] = useState([]);
   const [currentCurrency, setCurrentCurrency] = useState();
   const [userLoading, setUserLoading] = useState(true);
-  const [watchlist, setWatchlist] = useState();
+  const [watchlist, setWatchlist] = useState(userData.Watchlist);
 
   useEffect(() => {
     if (!Loading) {
@@ -22,18 +22,6 @@ const UserProfile = () => {
         );
       });
       setPopularCurrency(popularCurrencyData);
-
-      let i = 0;
-      const watchlistData = currencyData.filter((obj) => {
-        const { currencyCode } = obj;
-        return (
-          currencyCode === "AMD" ||
-          currencyCode === "EGP" ||
-          currencyCode === "IDR" ||
-          currencyCode === "JPY"
-        );
-      });
-      setWatchlist(watchlistData);
       setCurrentCurrency(popularCurrencyData[0]);
       setUserLoading(false);
     }
@@ -68,7 +56,12 @@ const UserProfile = () => {
                   >
                     <div>{item.currencyCode}</div>
                     <div>₹{price}</div>
-                    <button className="currency-details-btn">details</button>
+                    <Link
+                      to={`/trading/${item.currencyCode}`}
+                      style={{ textDecoration: "none", color: "inherit" }}
+                    >
+                      <button className="currency-details-btn">Details</button>
+                    </Link>
                   </div>
                 );
               })}

@@ -13,15 +13,16 @@ const Trading = () => {
   const [tradingLoading, setTradingLoading] = useState(true);
   const [aquiredAmount, setAquiredAmount] = useState(0);
   const [aquiredCurrencies, setAquiredCurrencies] = useState([]);
+  const [inWatchlist, setInWatchlist] = useState(false);
+
   useEffect(() => {
     if (currentCurrency) {
       const aquiredAmountData = userData.AquiredCurrency.filter((obj) => {
         return obj.currencyCode === currentCurrency.currencyCode;
       });
 
-      if (aquiredAmount.length > 0) {
-        const amount = aquiredAmountData[0].amount;
-        setAquiredAmount(amount);
+      if (aquiredAmountData.length > 0) {
+        setAquiredAmount(aquiredAmountData[0].amount);
       } else {
         setAquiredAmount(0);
       }
@@ -45,6 +46,37 @@ const Trading = () => {
       setTradingLoading(false);
     }
   }, [Loading]);
+
+  useEffect(() => {
+    if (currentCurrency) {
+      const checkWatchlist = userData.Watchlist.filter((obj) => {
+        return obj.currencyCode === currentCurrency.currencyCode;
+      });
+
+      if (checkWatchlist.length > 0) setInWatchlist(true);
+    }
+  }, [currentCurrency]);
+
+  const handleWatch = () => {
+    if (!inWatchlist) {
+      setUserData((prevState) => ({
+        ...prevState,
+        Watchlist: [...prevState.Watchlist, currentCurrency],
+      }));
+      setInWatchlist(true);
+    }
+    if (inWatchlist) {
+      // deleting current currency from watchlist
+      const newWatchlist = userData.Watchlist.filter((obj) => {
+        return obj.currencyCode !== currentCurrency.currencyCode;
+      });
+      setUserData((prevState) => ({
+        ...prevState,
+        Watchlist: newWatchlist,
+      }));
+      setInWatchlist(false);
+    }
+  };
 
   if (tradingLoading) {
     return <div>Loading...</div>;
@@ -101,6 +133,9 @@ const Trading = () => {
               />
             )}
           </div>
+          <button onClick={handleWatch} className="watch-btn">
+            {inWatchlist ? "Un-Watch" : "Watch"}
+          </button>
         </div>
       </div>
     </>

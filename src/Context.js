@@ -5,20 +5,14 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [currencyData, setCurrencyData] = useState([]);
   const [Loading, setLoading] = useState(true);
-  const [userData, setUserData] = useState({
-    AquiredCurrency: [
-      {
-        currencyCode: "INR",
-        rate: 1,
-        amount: 100000,
-      },
-      {
-        currencyCode: "EGP",
-        rate: 4.1,
-        amount: 20,
-      },
-    ],
-  });
+  const [userData, setUserData] = useState(
+    JSON.parse(localStorage.getItem("user"))
+  );
+
+  useEffect(() => {
+    console.log(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
+  }, [userData]);
 
   const options = {
     method: "GET",
