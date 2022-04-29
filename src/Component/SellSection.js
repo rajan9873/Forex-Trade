@@ -83,14 +83,14 @@ const SellSection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
   };
 
   return (
-    <>
-      <div className="sellSection-aquired-amount-container flex justify-around mt-10">
+    <div className="sell-section">
+      <div className="sellSection-aquired-amount-container flex justify-between font-sm mt-10">
         <div className="sellSection-aquired-amount-label">Aquired Amount</div>
         <div className="sellSection-aquired-amount-value">
           {aquiredAmount.toFixed(2)}
         </div>
       </div>
-      <div className="amount-container flex justify-around mt-10">
+      <div className="amount-container flex justify-between font-sm align-center mt-10">
         <label className="amount-label" htmlFor="amount-input">
           Amount
         </label>
@@ -104,12 +104,12 @@ const SellSection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
           className="amount-input-value"
         />
       </div>
-      <div className="recieving-currency-converter flex justify-around mt-10">
+      <div className="recieving-currency-converter flex justify-between font-sm mt-10">
         <label
           className="recieving-currency-label"
           htmlFor="recieving-currency-dropdown"
         >
-          Recieving currency
+          Recieving
         </label>
         <select
           onChange={(e) => setSecondaryCurrency(e.target.value)}
@@ -131,16 +131,16 @@ const SellSection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
           )}
         </select>
       </div>
-      <div className="sales-container flex justify-around mt-10">
+      <div className="sales-container flex justify-between font-sm mt-10">
         <p className="sales-label">Sales</p>
         <p className="sales-value">{sales.toFixed(2)}</p>
       </div>
       <div className="sell-btn-container flex justify-center mt-10">
-        <button onClick={sell} className="sell-btn cursor-pointer">
+        <button onClick={sell} className="sell-btn cursor-pointer w-full">
           Sell
         </button>
       </div>
-    </>
+    </div>
   );
 };
 export default SellSection;

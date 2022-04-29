@@ -107,18 +107,18 @@ const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
   };
 
   return (
-    <>
-      <div className="currency-detail-container flex">
-        <div className="trading-card-currency-title w-full text-center">
+    <div className="buy-section">
+      <div className="currency-detail-container flex justify-between">
+        <div className="trading-card-currency-title w-full flex align-center">
           Buy <span>{currentCurrency.currencyCode}</span>
         </div>
-        <div className="aquired-amount w-full">
+        <div className="aquired-amount font-sm w-full">
           <p className="aquired-amount-label">Aquired Amount:</p>
           <p className="aquired-amount-value">{aquiredAmount.toFixed(2)}</p>
         </div>
       </div>
-      <div className="amount-container flex justify-around">
-        <label className="amount-label" htmlFor="amount-input">
+      <div className="amount-container mt-10 flex justify-between align-center">
+        <label className="amount-label font-sm" htmlFor="amount-input">
           Amount
         </label>
         <input
@@ -131,12 +131,12 @@ const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
           className="amount-input-value"
         />
       </div>
-      <div className="payment-currency-converter flex justify-around mt-10">
+      <div className="payment-currency-converter font-sm flex justify-between align-center mt-10">
         <label
           className="payment-currency-label"
           htmlFor="payment-currency-dropdown"
         >
-          Payment currency
+          Payment
         </label>
         <select
           onChange={(e) => {
@@ -160,28 +160,28 @@ const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
           )}
         </select>
       </div>
-      <div className="market-price-container flex justify-around mt-10">
-        <p className="market-price-label">Market Price</p>
+      <div className="market-price-container font-sm flex justify-between mt-10">
+        <p className="market-price-label ">Market Price</p>
         <p className="market-price-value">{marketPrice.toFixed(2)}</p>
       </div>
-      <div className="estimated-price-container flex justify-around mt-10">
-        <p className="estimates-price-label">Estimated Price</p>
+      <div className="estimated-price-container font-sm flex justify-between mt-10">
+        <p className="estimates-price-label ">Estimated Price</p>
         <p className="estimated-price-value">{estimatedPrice.toFixed(0)}</p>
       </div>
       <div className="purchase-button-container flex justify-center">
         <button
           onClick={purchase}
-          className="purchase-button mt-10 cursor-pointer"
+          className="purchase-btn mt-10 cursor-pointer w-full"
         >
           Purchase
         </button>
       </div>
       <div className="funds-container flex justify-center mt-10">
-        <p className="funds">
-          funds : <span>{secondaryCurrencyAmount.toFixed(2)}</span>
+        <p className="funds-text">
+          Funds : <span>{secondaryCurrencyAmount.toFixed(2)}</span>
         </p>
       </div>
-    </>
+    </div>
   );
 };
 export default BuySection;

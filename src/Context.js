@@ -10,7 +10,6 @@ const AppProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    console.log(userData);
     localStorage.setItem("user", JSON.stringify(userData));
   }, [userData]);
 

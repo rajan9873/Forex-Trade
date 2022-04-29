@@ -84,9 +84,10 @@ const Trading = () => {
 
   return (
     <>
-      <div className="trading-main flex justify-around">
+      <div className="trading-main flex justify-between">
         <div className="trading-section-a">
           <div className="currency-details">
+            <h1>{currentCurrency.currencyName}</h1>
             <h1>₹{currentCurrency.rate.toFixed(2)}</h1>
           </div>
           <div className="graph"></div>
@@ -100,8 +101,8 @@ const Trading = () => {
                 }}
                 className={
                   buySection
-                    ? "buy bg-red cursor-pointer"
-                    : "buy cursor-pointer"
+                    ? "buy bg-grey border-bottom cursor-pointer"
+                    : "buy bg-grey  cursor-pointer"
                 }
               >
                 Buy
@@ -112,8 +113,8 @@ const Trading = () => {
                 }}
                 className={
                   buySection
-                    ? "sell cursor-pointer"
-                    : "sell bg-red cursor-pointer"
+                    ? "sell bg-grey cursor-pointer"
+                    : "sell bg-grey border-bottom  cursor-pointer"
                 }
               >
                 Sell
@@ -133,9 +134,11 @@ const Trading = () => {
               />
             )}
           </div>
-          <button onClick={handleWatch} className="watch-btn">
-            {inWatchlist ? "Un-Watch" : "Watch"}
-          </button>
+          <div className="watch-btn-container flex justify-center">
+            <button onClick={handleWatch} className="watch-btn cursor-pointer">
+              {inWatchlist ? "Un-Watch" : "Watch"}
+            </button>
+          </div>
         </div>
       </div>
     </>

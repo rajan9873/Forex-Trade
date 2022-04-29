@@ -14,12 +14,7 @@ const UserProfile = () => {
     if (!Loading) {
       const popularCurrencyData = currencyData.filter((obj) => {
         const { currencyCode } = obj;
-        return (
-          currencyCode === "USD" ||
-          currencyCode === "EUR" ||
-          currencyCode === "CNY" ||
-          currencyCode === "RUB"
-        );
+        return currencyCode === "USD" || currencyCode === "EUR";
       });
       setPopularCurrency(popularCurrencyData);
       setCurrentCurrency(popularCurrencyData[0]);
@@ -33,52 +28,92 @@ const UserProfile = () => {
 
   return (
     <>
-      <div className="user-profile-main flex justify-around">
+      <div className="user-profile-main flex justify-between">
         <div className="user-profile-section-a">
           <div className="currency-details">
+            <h1>{currentCurrency.currencyName}</h1>
             <h1>₹{currentCurrency.rate.toFixed(2)}</h1>
           </div>
           <div className="graph"></div>
-          <div className="user-details"></div>
+          <div className="user-details">
+            <div className="user-details-header flex justify-between">
+              <div
+                style={{ gap: "88px" }}
+                className="index-aquired-currency-container flex"
+              >
+                <div className="index font-bold">Index</div>
+                <div className="currency-name font-bold">Acquired Currency</div>
+              </div>
+              <div className="total-amount font-bold">Amount</div>
+            </div>
+            <ul className="user-details-list">
+              {userData.AquiredCurrency.map((item, index) => {
+                const { currencyName, amount } = item;
+                return (
+                  <li
+                    key={index}
+                    className="user-details-list-item flex justify-between"
+                  >
+                    <div
+                      style={{ gap: "110px" }}
+                      className="list-index-currency-name-container flex"
+                    >
+                      <div className="list-item-index">{index + 1}</div>
+                      <div className="list-item-currency-name text-center">
+                        {currencyName}
+                      </div>
+                    </div>
+                    <div className="list-item-amount">{amount.toFixed(0)}</div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
         <div className="user-profile-section-b">
           <div className="currencies">
             <div className="popular-currency">
-              <h1>Popular Currencies</h1>
+              <h1>Popular</h1>
               {popularCurrency.map((item, index) => {
                 const price = item.rate.toFixed(2);
 
                 return (
-                  <div
-                    key={index}
-                    style={{ gap: "10px" }}
-                    className="currency flex"
-                  >
-                    <div>{item.currencyCode}</div>
-                    <div>₹{price}</div>
+                  <div key={index} className="currency flex justify-between">
+                    <div
+                      style={{ gap: "55px" }}
+                      onClick={() => setCurrentCurrency(item)}
+                      className="currency-code-container flex cursor-pointer"
+                    >
+                      <div>{item.currencyCode}</div>
+                      <div>₹{price}</div>
+                    </div>
                     <Link
                       to={`/trading/${item.currencyCode}`}
                       style={{ textDecoration: "none", color: "inherit" }}
                     >
-                      <button className="currency-details-btn">Details</button>
+                      <button className="currency-details-btn cursor-pointer">
+                        Detail
+                      </button>
                     </Link>
                   </div>
                 );
               })}
             </div>
-            <div className="watchList">
-              <h1>watchList</h1>
+            <div className="watchlist">
+              <h1>Watchlist</h1>
               {watchlist.map((item, index) => {
                 const price = item.rate.toFixed(2);
 
                 return (
-                  <div
-                    key={index}
-                    style={{ gap: "10px" }}
-                    className="currency flex"
-                  >
-                    <div>{item.currencyCode}</div>
-                    <div>₹{price}</div>
+                  <div key={index} className="currency flex justify-between">
+                    <div
+                      style={{ gap: "55px" }}
+                      onClick={() => setCurrentCurrency(item)}
+                      className="currency-code-container flex cursor-pointer"
+                    >
+                      <div>{item.currencyCode}</div>
+                      <div>₹{price}</div>
+                    </div>
                     <button
                       onClick={() => {
                         setCurrentCurrency(item);
@@ -89,7 +124,7 @@ const UserProfile = () => {
                         to={`/trading/${item.currencyCode}`}
                         style={{ textDecoration: "none", color: "inherit" }}
                       >
-                        Details
+                        Detail
                       </Link>
                     </button>
                   </div>
