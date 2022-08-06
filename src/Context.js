@@ -5,6 +5,8 @@ const AppContext = React.createContext();
 const AppProvider = ({ children }) => {
   const [currencyData, setCurrencyData] = useState([]);
   const [Loading, setLoading] = useState(true);
+  const [searchFilterData, setSearchFilterData] = useState([]);
+
   const [userData, setUserData] = useState(
     JSON.parse(localStorage.getItem("user"))
   );
@@ -75,6 +77,8 @@ const AppProvider = ({ children }) => {
 
     const rates = await fetchingLatestCurrencyRate();
     const currencyList = await fectchingCurrencyCode();
+
+    // making rates array and currency array into single array
     joiningBothArray();
     setLoading(false);
   }, []);
@@ -86,6 +90,8 @@ const AppProvider = ({ children }) => {
         Loading,
         userData,
         setUserData,
+        searchFilterData,
+        setSearchFilterData,
       }}
     >
       {children}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../Context";
+import Graph from "./Graph";
 
 const UserProfile = () => {
   const { currencyData, Loading, userData } = useGlobalContext();
@@ -28,13 +29,18 @@ const UserProfile = () => {
 
   return (
     <>
-      <div className="user-profile-main flex justify-between">
+      <div
+        style={{ gap: "3.5rem" }}
+        className="user-profile-main flex justify-center"
+      >
         <div className="user-profile-section-a">
           <div className="currency-details">
             <h1>{currentCurrency.currencyName}</h1>
             <h1>₹{currentCurrency.rate.toFixed(2)}</h1>
           </div>
-          <div className="graph"></div>
+          <div className="graph">
+            <Graph currentCurrency={currentCurrency.currencyCode} />
+          </div>
           <div className="user-details">
             <div className="user-details-header flex justify-between">
               <div

@@ -10,6 +10,7 @@ const SellSection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
   const [secondaryCurrencyAmount, setSecondaryCurrencyAmount] = useState(0);
   const [secondaryCurrencyRate, setSecondaryCurrencyRate] = useState(0);
   const [amount, setAmount] = useState(0);
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     const aquiredCurrency = userData.AquiredCurrency;
@@ -80,6 +81,7 @@ const SellSection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
     } else {
       console.log("not have enough funds");
     }
+    setInputValue("");
   };
 
   return (
@@ -97,7 +99,11 @@ const SellSection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
         <input
           min={0}
           max={aquiredAmount}
-          onChange={(e) => setAmount(Number(e.target.value))}
+          onChange={(e) => {
+            setAmount(Number(e.target.value));
+            setInputValue(e.target.value);
+          }}
+          value={inputValue}
           type="number"
           name="amount-input"
           id="amount-input"

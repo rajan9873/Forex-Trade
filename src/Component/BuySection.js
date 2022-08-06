@@ -5,42 +5,63 @@ import CurrencyConvert from "../CurrencyConveter";
 const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
   const { userData, setUserData } = useGlobalContext();
 
+  // states
+  // secondary currency is the type of currency in which we will make the payment
   const [secondaryCurrency, setSecondaryCurrency] = useState("INR");
   const [secondaryCurrencyAmount, setSecondaryCurrencyAmount] = useState(0);
-  const [secondaryCurrencyRate, setSecondaryCurrencyRate] = useState(0);
+  const [secondaryCurrencyRate, setSecondaryCurrencyRate] = useState(1);
   const [marketPrice, setMarketPrice] = useState(currentCurrency.rate);
   const [estimatedPrice, setEstimatedPrice] = useState(0);
   const [amount, setAmount] = useState(0);
+  const [inputValue, setInputValue] = useState("");
 
-  useEffect(() => {
-    const aquiredCurrency = userData.AquiredCurrency;
-
-    const currentSecondaryCurrency = aquiredCurrency.filter((obj) => {
+  const gettingAllInfoAboutSecondaryCurrency = () => {
+    // filtering secondary currency from user Aquiredcurrency
+    const currentSecondaryCurrency = userData.AquiredCurrency.filter((obj) => {
       return obj.currencyCode === secondaryCurrency;
     });
 
+    // getting total amount of secondary curreny we have and setting it to state
     const secondaryAmount = currentSecondaryCurrency[0].amount;
     setSecondaryCurrencyAmount(secondaryAmount);
 
+    // getting the market rate of the secondary currency and setting it to state
     const secondaryRate = currentSecondaryCurrency[0].rate;
     setSecondaryCurrencyRate(secondaryRate);
+  };
 
-    // setting market price
+  const settingMarketPriceOfCurrentCurrency = () => {
+    // setting new Market Price according to secondary currency whenever the secondary currency changes
 
-    const result = CurrencyConvert(1, currentCurrency.rate, secondaryRate);
+    const TotalAmount = 1;
+    const CurrentCurrencyRate = currentCurrency.rate;
+
+    const result = CurrencyConvert(
+      TotalAmount,
+      CurrentCurrencyRate,
+      secondaryCurrencyRate
+    );
+
     setMarketPrice(result);
-  }, [secondaryCurrency, userData]);
+  };
 
   useEffect(() => {
-    const estimatingPrice = () => {
-      const result = CurrencyConvert(
-        amount,
-        currentCurrency.rate,
-        secondaryCurrencyRate
-      );
-      if (amount > 0 && Number) setEstimatedPrice(result);
-      else setEstimatedPrice(0);
-    };
+    gettingAllInfoAboutSecondaryCurrency();
+    settingMarketPriceOfCurrentCurrency();
+  }, [secondaryCurrency, userData]);
+
+  const estimatingPrice = () => {
+    // estimating how much it cost to purchase current currency
+    const result = CurrencyConvert(
+      amount,
+      currentCurrency.rate,
+      secondaryCurrencyRate
+    );
+    if (amount > 0 && Number) setEstimatedPrice(result);
+    else setEstimatedPrice(0);
+  };
+
+  useEffect(() => {
     estimatingPrice();
   }, [amount, secondaryCurrencyRate]);
 
@@ -53,10 +74,8 @@ const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
       });
 
       // if we have current currency in aquired currency array already
-
       if (checkCurrentCurrency.length > 0) {
         // adding amount in current currency
-
         const addingAmountInArray = userData.AquiredCurrency.map((obj) => {
           return obj.currencyCode === currentCurrency.currencyCode
             ? { ...obj, amount: obj.amount + amount }
@@ -102,8 +121,9 @@ const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
         }));
       }
     } else {
-      console.log("not have enough funds");
+      alert("not have enough funds");
     }
+    setInputValue("");
   };
 
   return (
@@ -124,7 +144,9 @@ const BuySection = ({ currentCurrency, aquiredAmount, aquiredCurrencies }) => {
         <input
           onChange={(e) => {
             setAmount(Number(e.target.value));
+            setInputValue(e.target.value);
           }}
+          value={inputValue}
           type="number"
           name="amount-input"
           id="amount-input"
